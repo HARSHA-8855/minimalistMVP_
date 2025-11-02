@@ -34,6 +34,12 @@ export const getProducts = (params = {}) => api.get('/products', { params });
 export const getProductById = (id) => api.get(`/products/${id}`);
 export const createOrder = (orderData) => api.post('/orders', orderData);
 
+// Auth APIs
+export const registerUser = (userData) => api.post('/auth/register', userData);
+export const loginUser = (credentials) => api.post('/auth/login', credentials);
+export const getUserProfile = () => api.get('/auth/profile');
+
+
 // Consultation APIs
 export const getConsultationByRef = (ref) => api.get(`/consultations/ref/${ref}`);
 export const getConsultationById = (id) => api.get(`/consultations/${id}`);
