@@ -900,18 +900,12 @@ const products = [
 const seedProducts = async () => {
   try {
     await connectDB();
-    
-    // Clear existing products
-    await Product.deleteMany({});
-    console.log('🗑️  Existing products cleared');
-
-    // Insert new products
-    const createdProducts = await Product.insertMany(products);
-    console.log(`✅ Seeded ${createdProducts.length} products successfully`);
-
-    process.exit(0);
+    await Product.deleteMany(); // optional: clear old data
+    await Product.insertMany(products);
+    console.log("✅ Data seeded successfully!");
+    process.exit();
   } catch (error) {
-    console.error('❌ Error seeding products:', error.message);
+    console.error("❌ Seeding failed:", error);
     process.exit(1);
   }
 };
