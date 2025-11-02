@@ -10,6 +10,7 @@ import healthRoutes from './routes/healthRoutes.js';
 import authRoutes from './routes/authRoutes.js';
 import cartRoutes from './routes/cartRoutes.js';
 import paymentRoutes from './routes/paymentRoutes.js';
+import consultationRoutes from './routes/consultationRoutes.js';
 
 const app = express();
 
@@ -28,6 +29,7 @@ app.use('/api/health', healthRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/cart', cartRoutes);
 app.use('/api', paymentRoutes);
+app.use('/api/consultations', consultationRoutes);
 
 // Error handling middleware
 app.use((err, req, res, next) => {

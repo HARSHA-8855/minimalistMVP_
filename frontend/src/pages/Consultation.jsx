@@ -1,9 +1,11 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 import { MessageCircle, User, Calendar, Sparkles } from 'lucide-react';
 import api from '../services/api';
 
 const Consultation = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: '',
     age: '',
@@ -87,18 +89,10 @@ const Consultation = () => {
 
               const verifyData = await verifyResponse.json();
               
-              if (verifyData.success) {
+              if (verifyData.success && verifyData.consultation) {
                 toast.success('Payment successful! Your consultation has been booked.');
-                // Clear form
-                setFormData({
-                  name: '',
-                  age: '',
-                  gender: '',
-                  consultationType: '',
-                  concerns: '',
-                  skinType: '',
-                  currentProducts: '',
-                });
+                // Navigate to confirmation page with reference number
+                navigate(`/consultation-confirmation/${verifyData.consultation.referenceNumber}`);
               } else {
                 toast.error('Payment verification failed');
               }

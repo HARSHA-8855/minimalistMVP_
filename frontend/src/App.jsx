@@ -20,6 +20,8 @@ import TrackOrder from './pages/TrackOrder';
 import Cart from './pages/Cart';
 import Checkout from './pages/Checkout';
 import Consultation from './pages/Consultation';
+import ConsultationConfirmation from './pages/ConsultationConfirmation';
+import AdminDashboard from './pages/AdminDashboard';
 import Login from './pages/Login';
 import Profile from './pages/Profile';
 
@@ -45,6 +47,8 @@ function App() {
                   <Route path="/ai-assistants" element={<AIAssistants />} />
                   <Route path="/track-order" element={<TrackOrder />} />
                   <Route path="/consultation" element={<Consultation />} />
+                  <Route path="/consultation-confirmation/:ref" element={<ConsultationConfirmation />} />
+                  <Route path="/admin/consultations" element={<AdminDashboard />} />
                   <Route path="/cart" element={<Cart />} />
                   <Route path="/checkout" element={<Checkout />} />
                   <Route path="/login" element={<Login />} />
