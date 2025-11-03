@@ -38,7 +38,7 @@ const Consultation = () => {
     
     try {
       // Initialize Razorpay payment
-      const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:6500/api'}/create-razorpay-order`, {
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:6500/api'}/create-razorpay-order`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -74,7 +74,7 @@ const Consultation = () => {
           handler: async (response) => {
             try {
               // Verify payment on backend
-              const verifyResponse = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:6500/api'}/verify-payment`, {
+              const verifyResponse = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:6500/api'}/verify-payment`, {
                 method: 'POST',
                 headers: {
                   'Content-Type': 'application/json',

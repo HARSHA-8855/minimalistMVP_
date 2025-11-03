@@ -100,13 +100,13 @@ const CartSidebar = ({ isOpen, onClose }) => {
                 </Link>
               </div>
             ) : (
-              items.map((item) => {
+              items.map((item, index) => {
                 const originalPrice = item.mrp || item.price;
                 const discountedPrice = item.price;
                 const isFree = discountedPrice === 0 || (originalPrice > discountedPrice && discountedPrice === 0);
 
                 return (
-                  <div key={item.productId} className="flex gap-3 pb-4 border-b border-gray-200 last:border-0">
+                  <div key={`${item.productId || item._id || item.name}-${index}`} className="flex gap-3 pb-4 border-b border-gray-200 last:border-0">
                     {/* Product Image */}
                     <div className="w-20 h-20 rounded overflow-hidden bg-gray-50 flex-shrink-0">
                       <img

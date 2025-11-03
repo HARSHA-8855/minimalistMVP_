@@ -37,31 +37,34 @@ const Checkout = () => {
   const handlePayment = async (orderData) => {
     try {
       // Step 1: Get Razorpay key from backend
-      const keyRes = await fetch(`${import.meta.env.VITE_API_BASE_URL}/payment/razorpay-key`);
+      const keyRes = await fetch(`${import.meta.env.VITE_API_BASE_URL}/razorpay-key`);
+      if (!keyRes.ok) throw new Error('Failed to fetch Razorpay key');
       const { key } = await keyRes.json();
 
       // Step 2: Create Razorpay order on backend
-      const orderRes = await fetch(`${import.meta.env.VITE_API_BASE_URL}/payment/create-razorpay-order`, {
+      const orderRes = await fetch(`${import.meta.env.VITE_API_BASE_URL}/create-razorpay-order`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ amount: orderData.totalAmount }),
       });
-      const order = await orderRes.json();
-
-      if (!order?.id) throw new Error('Failed to create Razorpay order');
+      if (!orderRes.ok) throw new Error('Failed to create Razorpay order');
+      const orderPayload = await orderRes.json();
+      if (!orderPayload?.success || !orderPayload?.order?.id) {
+        throw new Error('Failed to create Razorpay order');
+      }
 
       // Step 3: Configure Razorpay options
       const options = {
         key,
-        amount: order.amount,
+        amount: orderPayload.order.amount,
         currency: 'INR',
         name: 'Minimalist Store',
         description: 'Order Payment',
-        order_id: order.id,
+        order_id: orderPayload.order.id,
         handler: async function (response) {
           try {
             // Step 4: Verify payment
-            const verifyRes = await fetch(`${import.meta.env.VITE_API_BASE_URL}/payment/verify-payment`, {
+            const verifyRes = await fetch(`${import.meta.env.VITE_API_BASE_URL}/verify-payment`, {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify(response),

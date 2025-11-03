@@ -47,9 +47,24 @@ app.use((req, res) => {
   });
 });
 
-const PORT = process.env.PORT || 6500;
+const DEFAULT_PORT = Number(process.env.PORT) || 6500;
 
-app.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`);
-});
+const startServer = (port, remainingAttempts = 5) => {
+  const server = app.listen(port, () => {
+    console.log(`🚀 Server running on port ${port}`);
+  });
+
+  server.on('error', (err) => {
+    if (err && err.code === 'EADDRINUSE' && remainingAttempts > 0) {
+      const nextPort = port + 1;
+      console.warn(`Port ${port} in use. Retrying on ${nextPort}... (${remainingAttempts - 1} attempts left)`);
+      setTimeout(() => startServer(nextPort, remainingAttempts - 1), 500);
+    } else {
+      console.error('Failed to start server:', err);
+      process.exit(1);
+    }
+  });
+};
+
+startServer(DEFAULT_PORT);
 

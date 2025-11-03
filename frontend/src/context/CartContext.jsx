@@ -3,8 +3,8 @@ import { toast } from 'react-hot-toast';
 import { useAuth } from './AuthContext';
 
 const CartContext = createContext();
-
-const API_URL = 'http://localhost:6500/api/cart';
+const BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:6500/api';
+const API_URL = `${BASE_URL}/cart`;
 
 const cartReducer = (state, action) => {
   switch (action.type) {
